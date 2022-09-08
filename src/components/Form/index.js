@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { TouchableOpacity, Text, TextInput, View } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  TextInput,
+  View,
+  Vibration,
+  Pressable,
+  Keyboard,
+} from "react-native";
 
 import ResultImc from "./ResultImc";
 
@@ -11,9 +19,18 @@ const Form = () => {
   const [messageImc, setMessageImv] = useState("Preencha o peso e a altura");
   const [imc, setImc] = useState(null);
   const [textButton, setTextButton] = useState("Calcular");
+  const [errorMesaage, setErrorMessage] = useState("");
 
   const imcCalculator = () => {
-    return setImc((weight / (height * height)).toFixed(2));
+    let heightFormat = height.replace(",", "."); // formatando para IOS
+    return setImc((weight / (heightFormat * heightFormat)).toFixed(2));
+  };
+
+  const verificationImc = () => {
+    if (imc == null) {
+      Vibration.vibrate();
+      setErrorMessage("Campo obrigatório*");
+    }
   };
 
   const validationImc = () => {
@@ -23,17 +40,20 @@ const Form = () => {
       setWeight(null);
       setMessageImv("Seu imc é igual:");
       setTextButton("Calcular Novamente");
+      setErrorMessage(null);
       return;
     }
+    verificationImc();
     setImc(null);
     setTextButton("Calcular");
     setMessageImv("Preencha o peso e a altura");
   };
 
   return (
-    <View style={styles.formContext}>
+    <Pressable style={styles.formContext} onPress={Keyboard.dismiss}>
       <View style={styles.form}>
         <Text style={styles.formLabel}>Altura</Text>
+        <Text style={styles.errorMessage}>{errorMesaage}</Text>
         <TextInput
           style={styles.input}
           placeholder="Ex. 1.75"
@@ -42,6 +62,7 @@ const Form = () => {
           value={height}
         ></TextInput>
         <Text style={styles.formLabel}>Peso</Text>
+        <Text style={styles.errorMessage}>{errorMesaage}</Text>
         <TextInput
           style={styles.input}
           placeholder="Ex. 75.50"
@@ -57,7 +78,7 @@ const Form = () => {
         </TouchableOpacity>
       </View>
       <ResultImc message={messageImc} result={imc} />
-    </View>
+    </Pressable>
   );
 };
 
