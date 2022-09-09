@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 30
+    paddingTop: 30,
   },
   form: {
     width: "100%",
@@ -45,6 +45,29 @@ const styles = StyleSheet.create({
     color: "red",
     fontWeight: "bold",
     paddingLeft: 20,
+  },
+  exibitionResultImc: {
+    width: "100%",
+    height: "50%",
+  },
+  listImcs: {
+    marginTop: 20,
+  },
+  viewResultImcList: {
+    height: 50,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textResultItemList: {
+    fontSize: 18,
+    color: "red",
+  },
+  resultImcItem: {
+    fontSize: 26,
+    color: "red",
+    paddingRight: 20
   },
 });
 
